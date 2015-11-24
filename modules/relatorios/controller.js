@@ -1,52 +1,43 @@
-var sql = require('mssql');
- 
-var config = {
-    user: 'root',
-    password: 'root',
-    server: 'localhost\\SQLExpress', // You can use 'localhost\\instance' to connect to named instance 
-    database: 'sistemarelatorio',
-    port: '50365',
-    options: {
-        encrypt: true // Use this if you're on Windows Azure 
-    }
- 
-};
+var Request = require('tedious').Request;
 
-
-//module.exports = {sql, connection};
 var Controller = {
     retrieve: function(req,res){
-        var query={}
-        ,msg ='';
 
-        sql.connect(config, function(err){
+        var Connection = require('tedious').Connection;
+        var connect =new Connection(require('./model'));
+        //var query={_id: req.params.id}
+        //,msg ='';
+        
 
-            if(err){
-                console.log('Erro: ', err);
-                msg = err;
-            }else{
-                request = new sql.Request();
-                request.query('select 1 as number', function(err, recordset) {
-                    // ... error checks 
-                    if(err){
-                        console.log('Erro: ', err);
-                        msg = err;
-                    }else{
-                        console.log('valores: ',recordset); // return 1 
-                        msg = recordset;
-                    }
-                    
-                    //res.render(msg);
-                    // ... 
-                });
+        request = new Request("select 42, 'hello world'", function(err, rowCount) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(rowCount + ' rows');
             }
         });
- 
-        sql.on('error', function(err) {
-            console.log('Erro de conexao', err);
-            msg = err;
+
+        request.on('row', function(columns) {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            columns.forEach(function(column) {
+                res.write(column.value+"\n");
+            });
+
+            res.end("Oi");
         });
+
+        connect.on('connect', function(err) {
+            // If no error, then good to go...
+            if(err){
+                console.log("There Is an error on the force"+err);
+                return;
+            }else{
+                console.log("Successfully connected to the force",connect);
+            }
+            connect.execSql(request);
+        });
+
     }
 }
 
-module.exports = Controller;
+module.exports = Controller; 

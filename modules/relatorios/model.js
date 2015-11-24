@@ -1,22 +1,22 @@
-var sql = require('mssql');
- 
-var config = {
-    user: 'root',
-    password: 'root',
-    server: 'localhost\\SQLExpress', // You can use 'localhost\\instance' to connect to named instance 
-    database: 'sistemarelatorio',
- 
-}
- 
-var connection = new sql.Connection(config, function(err) {
-
+var Connection = require('tedious').Connection;
+  var config = {
+    "userName": "root",
+    "password": "root",
+    "server": "localhost",
+    "options": {
+      //"port":"53235",
+      "encrypt": false
+    }      
+};
+/*var connection = new Connection(config);
+connection.on('connect', function(err) {
+    // If no error, then good to go...
     if(err){
-        console.log('Erro: ', err);
+        console.log("There Is an error on the force"+err);
+        return;
+    }else{
+        console.log("Successfully connected to the force",connection);
     }
 });
- 
-connection.on('error', function(err) {
-    console.log('Erro de conexao', err);
-});
-
-module.exports = {sql, connection};
+*/
+module.exports = config;
