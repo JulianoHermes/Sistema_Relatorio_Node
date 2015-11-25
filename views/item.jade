@@ -6,6 +6,4 @@ block content
 
   ul
     for columns in rows
-      for column in columns
-        if column.metadata.colName == "valor"
-          li #{column.metadata.colName} - #{column.value}
+        li valor #{columns.valor} --- data #{columns.data} 

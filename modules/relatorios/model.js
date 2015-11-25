@@ -5,11 +5,11 @@ var config = {
     "userName": "root",
     "password": "root",
     "server": "localhost",
-    "database": "sistemarelatorio",
     "options": {
         //"port":"53235",
+        "database": "sistemarelatorio",
         "encrypt": false,
-        "rowCollectionOnRequestCompletion": true 
+        "rowCollectionOnRequestCompletion": true
     }      
 };
 
@@ -32,8 +32,19 @@ function executeSQL(req){
 
 
 var model={
-    "selectAll": function (callback){
-        req = new Request("select * from sistemarelatorio.dbo.valores", function(err, rowCount, rows) {
+    "select": function (values, table, condition, callback){
+        if(!values){
+            values="*";
+        }
+        if(condition){
+            condition = "where "+condition;
+        }
+        if(!table){
+            callback({"erro": "SEM DEFINIÇÃO DE TABELA"});
+            return;
+        }
+        console.log("select "+values+" from "+table+" "+condition);
+        req = new Request("select "+values+" from "+table+" "+condition, function(err, rowCount, rows) {
             if (err) {
                 console.log(err);
             } else {
