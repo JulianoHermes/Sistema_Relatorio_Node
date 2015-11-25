@@ -1,4 +1,11 @@
 extends layout
 
 block content
-  h1 #{data}
+  h1= title
+  p Welcome to #{title}
+
+  ul
+    for columns in rows
+      for column in columns
+        if column.metadata.colName == "valor"
+          li #{column.metadata.colName} - #{column.value}
