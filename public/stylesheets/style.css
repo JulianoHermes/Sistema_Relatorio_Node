@@ -1,8 +1,21 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+.row.content {
+	height: 100vh;
 }
 
-a {
-  color: #00B7FF;
+.col-sm-9{
+	margin-left: 25%;
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+  background-color: #f1f1f1;
+  height: 100%;
+}
+    
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+	.row.content {
+		height: auto;
+	} 
 }
