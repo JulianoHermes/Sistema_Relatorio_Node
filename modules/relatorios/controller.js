@@ -7,7 +7,7 @@ var Controller = {
         dados ={};
         row = {};
         count =0; 
-        model.select("id,valor,CONVERT(VARCHAR(28),data,120) as 'data'","valores","data < {ts '2015-11-25 15:00:00'}",function(response){
+        model.select("id,valor,CONVERT(VARCHAR(28),data,120) as 'data'","valores","",function(response){
             response.forEach(function(columns) {
                 columns.forEach(function(column) {
                     console.log(column.metadata.colName + ' = ' + column.value);
